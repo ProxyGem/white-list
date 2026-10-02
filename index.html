@@ -2,229 +2,33 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💎 ProxyGem Белые Списки</title>
-<style>
-  *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,'Segoe UI',Roboto,sans-serif}
-  body{background:#0a0a0a;color:#e8e8e8;min-height:100vh;padding:20px}
-  .wrap{max-width:1100px;margin:0 auto}
-  h1{font-size:2rem;text-align:center;background:linear-gradient(135deg,#00b894,#50d30f);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
-  .sub{text-align:center;color:#a8b8b8;margin-bottom:20px;font-size:.95rem}
-  .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
-  .stat{background:rgba(0,184,148,.1);border:1px solid rgba(0,184,148,.3);border-radius:10px;padding:10px 16px;text-align:center}
-  .stat b{display:block;color:#00b894;font-size:1.3rem}
-  .stat span{color:#a8b8b8;font-size:.75rem;text-transform:uppercase}
-  .bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:16px}
-  .btn{background:#1d2a20;color:#fff;border:1px solid #00b894;padding:10px 18px;border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:.2s}
-  .btn:hover{background:#2a4a30;transform:translateY(-2px)}
-  .btn.p{background:linear-gradient(135deg,#00b894,#23c95f);color:#0a0a0a;border:none}
-  .status{background:#242a26;border:1px solid rgba(0,184,148,.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:.9rem;color:#d4dcdc}
-  .dot{width:10px;height:10px;border-radius:50%;background:#00b894;animation:p 2s infinite}
-  .dot.err{background:#e74c3c;animation:none}
-  .dot.load{background:#f39c12}
-  @keyframes p{50%{opacity:.4}}
-  .grid{display:grid;gap:12px}
-  .card{background:#1d2a20;border:1px solid rgba(0,184,148,.15);border-radius:12px;padding:14px 16px;transition:.2s}
-  .card:hover{border-color:rgba(0,184,148,.5);transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.4)}
-  .chead{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap;align-items:flex-start}
-  .cname{font-weight:600;font-size:1rem;color:#e8e8e8;flex:1;min-width:180px}
-  .proto{background:rgba(0,184,148,.2);color:#00b894;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;text-transform:uppercase;white-space:nowrap}
-  .det{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:4px;font-size:.8rem;color:#a8b8b8;margin-top:8px}
-  .det b{color:#6a7a7a;font-weight:500}
-  .det span{color:#d4dcdc;word-break:break-all}
-  .acts{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-  .btn.s{padding:6px 12px;font-size:.8rem}
-  .empty{text-align:center;padding:50px 20px;color:#6a7a7a}
-  .empty .i{font-size:3rem;margin-bottom:10px;opacity:.5}
-  .empty h3{color:#a8b8b8;margin-bottom:6px}
-  .sp{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,184,148,.3);border-top-color:#00b894;border-radius:50%;animation:s .8s linear infinite}
-  @keyframes s{to{transform:rotate(360deg)}}
-  .foot{text-align:center;margin-top:30px;padding:20px;color:#6a7a7a;font-size:.85rem;border-top:1px solid rgba(0,184,148,.1)}
-  .foot a{color:#00b894;text-decoration:none}
-  .toast{position:fixed;bottom:20px;right:20px;background:#1d2a20;border:1px solid #00b894;color:#e8e8e8;padding:12px 18px;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.5);transform:translateY(150%);transition:.4s;z-index:999;display:flex;gap:8px;align-items:center;max-width:340px}
-  .toast.on{transform:translateY(0)}
-  @media(max-width:600px){h1{font-size:1.4rem}.btn{padding:8px 12px;font-size:.85rem}}
-</style>
+<title>Подписка</title>
 </head>
 <body>
-<div class="wrap">
-  <h1>💎 ProxyGem Белые Списки</h1>
-  <p class="sub">VLESS / Hysteria2 серверы для обхода блокировок</p>
-  <div class="stats">
-    <div class="stat"><b id="cnt">—</b><span>Серверов</span></div>
-    <div class="stat"><b id="tm" style="font-size:.9rem">—</b><span>Обновлено</span></div>
-  </div>
-  <div class="bar">
-    <button class="btn p" id="loadBtn" onclick="load()">🔄 Загрузить серверы</button>
-    <button class="btn" id="copyAll" onclick="copyAll()" disabled>📋 Скопировать все</button>
-    <a class="btn" href="https://t.me/proxy_gem777" target="_blank">📢 Telegram</a>
-  </div>
-  <div class="status"><div class="dot" id="dot"></div><span id="stxt">Нажмите «Загрузить серверы»</span></div>
-  <div class="grid" id="grid">
-    <div class="empty"><div class="i">📡</div><h3>Серверы не загружены</h3><p>Нажмите кнопку выше, чтобы получить список.</p></div>
-  </div>
-  <div class="foot">
-    <p>Источник: <a href="https://raw.githubusercontent.com/ProxyGem/X3-qW8-zR5-/main/white_list.txt" target="_blank">white_list.txt</a></p>
-    <p style="margin-top:6px">Подписка для Happ: <b>добавь ссылку на эту страницу</b></p>
-  </div>
-</div>
-<div class="toast" id="toast"><span id="ti">✅</span><span id="tm2"></span></div>
-
 <script>
-const SRC='https://raw.githubusercontent.com/ProxyGem/X3-qW8-zR5-/main/white_list.txt';
-let servers=[];
-
-// === ОПРЕДЕЛЯЕМ: Happ или браузер ===
-const ua=navigator.userAgent.toLowerCase();
-const isHapp=ua.includes('happ')||ua.includes('hiddify')||ua.includes('v2ray')||ua.includes('clash')||ua.includes('sing-box')||ua.includes('streisand')||ua.includes('shadowrocket')||ua.includes('quantumult');
-
-// Happ → отдаём Base64-подписку и выходим
-if(isHapp){
-  (async()=>{
-    try{
-      const r=await fetch(SRC+'?t='+Date.now());
-      const t=await r.text();
-      const lines=t.split('\n').filter(l=>{
-        const x=l.trim();
-        return x.startsWith('vless://')||x.startsWith('hysteria2://')||x.startsWith('vmess://')||x.startsWith('trojan://');
-      });
-      const b64=btoa(unescape(encodeURIComponent(lines.join('\n'))));
-      document.documentElement.innerHTML='<pre style="white-space:pre-wrap;word-break:break-all;font-family:monospace;font-size:11px;padding:8px;color:#000;background:#fff">'+b64+'</pre>';
-    }catch(e){
-      document.documentElement.innerHTML='ERROR: '+e.message;
-    }
-  })();
-} else {
-  // Браузер → обычный сайт с меню
-  window.addEventListener('DOMContentLoaded',load);
-}
-
-// === ЗАГРУЗКА ===
-async function load(){
-  const b=document.getElementById('loadBtn'),d=document.getElementById('dot'),s=document.getElementById('stxt'),g=document.getElementById('grid');
-  b.disabled=true;b.innerHTML='<span class="sp"></span> Загрузка...';
-  d.className='dot load';s.textContent='Загрузка данных...';
-  g.innerHTML='<div class="empty"><div class="i">⏳</div><h3>Загрузка...</h3></div>';
-  try{
-    const r=await fetch(SRC+'?t='+Date.now());
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const t=await r.text();
-    parse(t);
-    render();
-    d.className='dot';s.textContent='Успешно загружено '+servers.length+' серверов';
-    b.innerHTML='🔄 Обновить';b.disabled=false;
-    document.getElementById('copyAll').disabled=false;
-    toast('✅','Загружено '+servers.length+' серверов');
-  }catch(e){
-    d.className='dot err';s.textContent='Ошибка: '+e.message;
-    g.innerHTML='<div class="empty"><div class="i">❌</div><h3>Ошибка загрузки</h3><p>'+esc(e.message)+'</p></div>';
-    b.innerHTML='🔄 Попробовать снова';b.disabled=false;
-    toast('❌',e.message);
+(async () => {
+  const url = 'https://raw.githubusercontent.com/ProxyGem/X3-qW8-zR5-/main/white_list.txt';
+  try {
+    const r = await fetch(url);
+    const text = await r.text();
+    
+    // Оставляем только vless:// и hysteria2://
+    const lines = text.split('\n').filter(l => {
+      const t = l.trim();
+      return t.startsWith('vless://') || t.startsWith('hysteria2://');
+    });
+    
+    const joined = lines.join('\n');
+    
+    // Кодируем в Base64 (UTF-8 safe)
+    const base64 = btoa(unescape(encodeURIComponent(joined)));
+    
+    // Заменяем страницу на чистый Base64-текст
+    document.documentElement.innerHTML = '<pre style="word-wrap:break-word;white-space:pre-wrap;font-family:monospace;font-size:12px;padding:10px;">' + base64 + '</pre>';
+  } catch (e) {
+    document.body.innerHTML = 'Ошибка: ' + e.message;
   }
-}
-
-function parse(text){
-  servers=[];
-  for(const line of text.split('\n')){
-    const t=line.trim();
-    if(!t)continue;
-    if(t.startsWith('vless://')||t.startsWith('hysteria2://')||t.startsWith('vmess://')||t.startsWith('trojan://')){
-      const s=parseOne(t);
-      if(s)servers.push(s);
-    }
-  }
-  document.getElementById('cnt').textContent=servers.length;
-  document.getElementById('tm').textContent=new Date().toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-}
-
-function parseOne(uri){
-  try{
-    const proto=uri.split('://')[0];
-    let rest=uri.substring(proto.length+3);
-    let name='';
-    const h=rest.indexOf('#');
-    if(h!==-1){name=decodeURIComponent(rest.substring(h+1));rest=rest.substring(0,h);}
-    let params={},main=rest;
-    const q=rest.indexOf('?');
-    if(q!==-1){
-      main=rest.substring(0,q);
-      new URLSearchParams(rest.substring(q+1)).forEach((v,k)=>params[k]=v);
-    }
-    let host='',port='',user='';
-    const at=main.indexOf('@');
-    let hp=main;
-    if(at!==-1){user=main.substring(0,at);hp=main.substring(at+1);}
-    if(hp.startsWith('[')){
-      const cb=hp.indexOf(']');
-      host=hp.substring(1,cb);
-      const r=hp.substring(cb+1);
-      if(r.startsWith(':'))port=r.substring(1);
-    }else{
-      const lc=hp.lastIndexOf(':');
-      if(lc!==-1){host=hp.substring(0,lc);port=hp.substring(lc+1);}
-      else host=hp;
-    }
-    return{proto,name:name||proto+' сервер',host,port,params,uri};
-  }catch(e){return null;}
-}
-
-function render(){
-  const g=document.getElementById('grid');
-  if(!servers.length){g.innerHTML='<div class="empty"><div class="i">📭</div><h3>Ничего не найдено</h3></div>';return;}
-  let h='';
-  servers.forEach((s,i)=>{
-    const kp=[];
-    if(s.params.security)kp.push(['Security',s.params.security]);
-    if(s.params.type)kp.push(['Type',s.params.type]);
-    if(s.params.sni)kp.push(['SNI',s.params.sni]);
-    if(s.params.flow)kp.push(['Flow',s.params.flow]);
-    if(s.params.fp)kp.push(['FP',s.params.fp]);
-    if(s.params.path)kp.push(['Path',s.params.path]);
-    if(s.params.host)kp.push(['Host',s.params.host]);
-    h+=`<div class="card">
-      <div class="chead"><div class="cname">${i+1}. ${esc(s.name)}</div><span class="proto">${s.proto}</span></div>
-      <div class="det">
-        <div><b>Сервер:</b> <span>${esc(s.host)}:${esc(s.port)}</span></div>
-        ${kp.map(p=>`<div><b>${esc(p[0])}:</b> <span>${esc(String(p[1]))}</span></div>`).join('')}
-      </div>
-      <div class="acts">
-        <button class="btn s" onclick="copyOne(${i},this)">📋 Копировать</button>
-        <button class="btn s" onclick="openHapp(${i})">🚀 В Happ</button>
-      </div>
-    </div>`;
-  });
-  g.innerHTML=h;
-}
-
-async function copyOne(i,b){
-  const s=servers[i];if(!s)return;
-  try{await navigator.clipboard.writeText(s.uri);b.textContent='✅ Готово';setTimeout(()=>b.textContent='📋 Копировать',2000);toast('✅','Скопировано: '+s.name);}
-  catch(e){const ta=document.createElement('textarea');ta.value=s.uri;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('✅','Скопировано');}
-}
-
-function openHapp(i){
-  const s=servers[i];if(!s)return;
-  copyOne(i,{textContent:''});
-  setTimeout(()=>{window.location.href='happ://add/'+encodeURIComponent(s.uri);},300);
-  toast('🚀','Открываю Happ...');
-}
-
-async function copyAll(){
-  if(!servers.length)return;
-  const all=servers.map(s=>s.uri).join('\n');
-  try{await navigator.clipboard.writeText(all);toast('✅','Скопировано '+servers.length+' серверов');document.getElementById('copyAll').textContent='✅ Готово';setTimeout(()=>document.getElementById('copyAll').textContent='📋 Скопировать все',2000);}
-  catch(e){toast('❌','Ошибка');}
-}
-
-function toast(ic,m){
-  const t=document.getElementById('toast');
-  document.getElementById('ti').textContent=ic;
-  document.getElementById('tm2').textContent=m;
-  t.classList.add('on');
-  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2500);
-}
-
-function esc(x){if(!x)return '';const d=document.createElement('div');d.textContent=x;return d.innerHTML;}
+})();
 </script>
 </body>
 </html>
